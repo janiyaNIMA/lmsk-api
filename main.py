@@ -84,7 +84,7 @@ def post_calendar():
             # Create new record if uid is not exist
             uid = item.get("uid")
             if uid:
-                calendar = Calendar.query.get(uid)
+                calendar = Calendar.query.filter_by(uid=uid).first()
                 if calendar:
                     continue
 
