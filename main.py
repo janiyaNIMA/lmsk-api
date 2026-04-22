@@ -13,28 +13,26 @@ class Calendar(db.Model):
     __tablename__ = "calendar"
 
     id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.String(200), unique=True, nullable=False)
+    summary = db.Column(db.String(500), nullable=True)
+    description = db.Column(db.Text, nullable=True)
     last_modified = db.Column(db.String(100), nullable=True)
     dt_stamp = db.Column(db.String(100), nullable=True)
     dt_start = db.Column(db.String(100), nullable=True)
     dt_end = db.Column(db.String(100), nullable=True)
     categories = db.Column(db.String(200), nullable=True)
-    end = db.Column(db.String(100), nullable=True)
-    uid = db.Column(db.String(200), unique=True, nullable=False)
-    summary = db.Column(db.String(500), nullable=True)
-    description = db.Column(db.Text, nullable=True)
 
     def to_dict(self):
         return {
             "id": self.id,
+            "uid": self.uid,
+            "summary": self.summary,
+            "description": self.description,
             "last_modified": self.last_modified,
             "dt_stamp": self.dt_stamp,
             "dt_start": self.dt_start,
             "dt_end": self.dt_end,
             "categories": self.categories,
-            "end": self.end,
-            "uid": self.uid,
-            "summary": self.summary,
-            "description": self.description,
         }
 
 
@@ -85,15 +83,14 @@ def post_calendar():
         for item in data:
             # Create new record
             new_calendar = Calendar(
+                uid=item.get("uid"),
+                summary=item.get("summary"),
+                description=item.get("description"),
                 last_modified=item.get("last_modified"),
                 dt_stamp=item.get("dt_stamp"),
                 dt_start=item.get("dt_start"),
                 dt_end=item.get("dt_end"),
                 categories=item.get("categories"),
-                end=item.get("end"),
-                uid=item.get("uid"),
-                summary=item.get("summary"),
-                description=item.get("description"),
             )
             db.session.add(new_calendar)
             processed_items.append(new_calendar)
@@ -111,15 +108,14 @@ def update_calender(id):
     data = request.get_json()
     calendar = Calendar.query.get(id)
     if calendar:
+        calendar.uid = data.get("uid", calendar.uid)
+        calendar.summary = data.get("summary", calendar.summary)
+        calendar.description = data.get("description", calendar.description)
         calendar.last_modified = data.get("last_modified", calendar.last_modified)
         calendar.dt_stamp = data.get("dt_stamp", calendar.dt_stamp)
         calendar.dt_start = data.get("dt_start", calendar.dt_start)
         calendar.dt_end = data.get("dt_end", calendar.dt_end)
         calendar.categories = data.get("categories", calendar.categories)
-        calendar.end = data.get("end", calendar.end)
-        calendar.uid = data.get("uid", calendar.uid)
-        calendar.summary = data.get("summary", calendar.summary)
-        calendar.description = data.get("description", calendar.description)
         db.session.commit()
         return jsonify(calendar.to_dict())
     else:
