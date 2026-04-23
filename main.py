@@ -49,17 +49,17 @@ def index():
     return jsonify({"message": "Welcome to fasnet LMS Scraper.!"})
 
 
-# https://localhost:5000/lmsk/calender
-@app.get("/lmsk/calender")
+# https://localhost:5000/lmsk/calendar
+@app.get("/lmsk/calendar")
 def get_calendars():
     calendar = Calendar.query.all()
 
     return jsonify([item.to_dict() for item in calendar])
 
 
-# https://localhost:5000/lmsk/calender/2
-@app.get("/lmsk/calender/<int:id>")
-def get_calender(id):
+# https://localhost:5000/lmsk/calendar/2
+@app.get("/lmsk/calendar/<int:id>")
+def get_calendar(id):
     calendar = Calendar.query.get(id)
     if calendar:
         return jsonify(calendar.to_dict())
@@ -68,7 +68,7 @@ def get_calender(id):
 
 
 # POST
-@app.post("/lmsk/calender")
+@app.post("/lmsk/calendar")
 def post_calendar():
     data = request.get_json()
     if isinstance(data, dict):
@@ -109,8 +109,8 @@ def post_calendar():
 
 
 # PUT
-@app.put("/lmsk/calender/<int:id>")
-def update_calender(id):
+@app.put("/lmsk/calendar/<int:id>")
+def update_calendar(id):
     data = request.get_json()
     calendar = Calendar.query.get(id)
     if calendar:
@@ -129,8 +129,8 @@ def update_calender(id):
 
 
 # DELETE
-@app.delete("/lmsk/calender/<int:id>")
-def delete_calender(id):
+@app.delete("/lmsk/calendar/<int:id>")
+def delete_calendar(id):
     calendar = Calendar.query.get(id)
     if calendar:
         db.session.delete(calendar)

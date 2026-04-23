@@ -25,25 +25,25 @@ A Flask-based REST API for managing Moodle LMS calendar events scraped from vari
 
 ### 2. Calendar Events
 
-- **GET `/lmsk/calender`**
+- **GET `/lmsk/calendar`**
   - Description: Retrieve all calendar events.
   - Response: Array of Calendar objects.
 
-- **GET `/lmsk/calender/<id>`**
+- **GET `/lmsk/calendar/<id>`**
   - Description: Retrieve a single calendar event by its database ID.
   - Response: Calendar object or 404 error.
 
-- **POST `/lmsk/calender`**
+- **POST `/lmsk/calendar`**
   - Description: Create one or more calendar events.
   - Request Body: A single Calendar object OR a list of Calendar objects.
   - Response: The created object(s) with 201 status.
 
-- **PUT `/lmsk/calender/<id>`**
+- **PUT `/lmsk/calendar/<id>`**
   - Description: Update an existing calendar event.
   - Request Body: JSON with fields to update.
   - Response: The updated Calendar object.
 
-- **DELETE `/lmsk/calender/<id>`**
+- **DELETE `/lmsk/calendar/<id>`**
   - Description: Delete a calendar event.
   - Response: Success message.
 
